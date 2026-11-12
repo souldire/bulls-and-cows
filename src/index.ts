@@ -2,6 +2,7 @@ import { generateSecret } from './core/generateSecret.js';
 import { renderGameScreen, type GameResult } from './ui/gameScreen.js';
 import { renderSettings } from './ui/settingsScreen.js';
 import { formatTime } from './ui/format.js';
+import { renderLeaderboard, saveScore } from './ui/leaderboard.js';
 import type { Settings } from './ui/types.js';
 
 const root = document.createElement('div');
@@ -17,6 +18,14 @@ const startGame = (settings: Settings): void => {
 };
 
 const showWin = (settings: Settings, result: GameResult): void => {
+  const scores = saveScore({
+    attempts: result.attempts,
+    timeMs: result.timeMs,
+    length: settings.length,
+    base: settings.base,
+    date: new Date().toISOString(),
+  });
+
   const victory = document.createElement('div');
 
   const title = document.createElement('h2');
@@ -29,7 +38,7 @@ const showWin = (settings: Settings, result: GameResult): void => {
   newGameButton.textContent = 'New game';
   newGameButton.addEventListener('click', showSettings);
 
-  victory.append(title, stats, newGameButton);
+  victory.append(title, stats, newGameButton, renderLeaderboard(scores));
   root.append(victory);
 };
 
