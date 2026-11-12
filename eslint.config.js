@@ -7,8 +7,6 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   {
     rules: {
-      // параметры, не используемые по замыслу (например, random для детерминированных тестов),
-      // принято называть с префиксом _
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
   },
